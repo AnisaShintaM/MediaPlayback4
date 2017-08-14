@@ -291,15 +291,19 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     public void onLoadingChanged(boolean isLoading) {
     }
 
+
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         if((playbackState == ExoPlayer.STATE_READY) && playWhenReady){
             // TODO (3): When ExoPlayer is playing, update the PlayBackState.
-            Log.d(TAG, "onPlayerStateChanged: PLAYING");
+            mStateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
+                    mExoPlayer.getCurrentPosition(), 1f);
         } else if((playbackState == ExoPlayer.STATE_READY)){
             // TODO (3): When ExoPlayer is paused, update the PlayBackState.
-            Log.d(TAG, "onPlayerStateChanged: PAUSED");
+            mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
+                    mExoPlayer.getCurrentPosition(), 1f);
         }
+        mMediaSession.setPlaybackState(mStateBuilder.build());
     }
 
     @Override
